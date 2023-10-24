@@ -35,6 +35,13 @@ PROCESSES = [
 ]
 
 
+EXTRACTIONS = [
+    ("MIN", "Mining"),
+    ("CHO", "Chopping"),
+    ("CHE", "Chemical Creation"),
+]
+
+
 # Models
 class BaseModel(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True, editable=False)
@@ -98,6 +105,17 @@ class Storage(CompanyModel):
     def __str__(self):
         return "Storage of" + str(self.objectItem) + ", " + str(self.departure) + " - " + str(self.arrival)
 
+
+class Extracts(CompanyModel):
+
+    objectItem_output = models.ForeignKey(to=ObjectItem, on_delete=models.CASCADE, related_name="extr_output")
+
+    departure = models.DateTimeField()
+
+    extract_type = models.CharField(choices=EXTRACTIONS, max_length=3)
+
+    def __str__(self):
+        return "Extraction of" + str(self.objectItem_output) + ", " + str(self.departure)
 
 
 class ProductChain(BaseModel):

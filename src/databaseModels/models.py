@@ -1,4 +1,6 @@
 import uuid
+
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
 # Possibilities Dicts
@@ -50,20 +52,19 @@ STORAGE = [
 
 
 # Models
-class BaseModel(PolymorphicModel):
+class BaseModel(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True, editable=False)
 
     class Meta:
         abstract = True
 
 
-class CompanyModel(BaseModel):
+class CompanyModel(PolymorphicModel):
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True, editable=False)
     impact_score = models.IntegerField(blank=True, null=True)
 
     date_in = models.DateTimeField()
     date_out = models.DateTimeField()
-
-    chainStep = models.UUIDField(default=uuid.uuid4)
     
 
 class ObjectItem(BaseModel):
@@ -131,5 +132,4 @@ class ProductChain(BaseModel):
     lastStep = models.ForeignKey(to=CompanyModel, on_delete=models.CASCADE, related_name="lastStep")
     currStep = models.ForeignKey(to=CompanyModel, on_delete=models.CASCADE, related_name="currStep")
     nextStep = models.ForeignKey(to=CompanyModel, on_delete=models.CASCADE, related_name="nextStep")
-
 

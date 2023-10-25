@@ -14,7 +14,10 @@ def index(request):
     return render(request, 'index.html', context=context)
 
 
-def viewProduct(request, id):
+def viewProduct(request, id=None):
+    if id is None:
+        return render(request, 'productChain.html', context=None)
+
     objectItem = ObjectItem.objects.filter(id_exact=id)
     chains = ProductChain.objects.filter(object__exact=objectItem)
 

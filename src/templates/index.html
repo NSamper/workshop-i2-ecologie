@@ -4,41 +4,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste d'Images Bootstrap avec transition de vue</title>
+    <title>Inventaire des objets</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container">
-    <h1>Liste d'Images Bootstrap</h1>
-    <ul class="list-group">
-        <li class="list-group-item">
-            <a href="{% url 'productExplorer:viewProduct' %} ">
-            <img src="{% static 'productExplorer/phone-mobile.jpg' %}" alt="phone-mobile" class="img-thumbnail" width="200" onclick="navigateTo('viewProduct')">
-            </a>
-        </li>
-        <li class="list-group-item">
-            <img src="image2.jpg" alt="Image 2" class="img-thumbnail" width="200" onclick="navigateTo('image2.jpg')">
-        </li>
-        <li class="list-group-item">
-            <img src="image3.jpg" alt="Image 3" class="img-thumbnail" width="200" onclick="navigateTo('image3.jpg')">
-        </li>
-    </ul>
 
-    <div id="image-view" style="display: none;">
-        <button class="btn btn-primary" onclick="goBack()">Retour</button>
-        <img id="selected-image" class="img-fluid">
-    </div>
+    <h1>Appareils enregistrés</h1>
+    <br><br>
+    <table class="table table-primary table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Image</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Link</th>
+            <th scope="col">Score</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for objectItem in objectItems %}
+        <tr>
+            <td>
+                <img src="{% static 'productExplorer/phone-mobile.jpg' %}" alt="phone-mobile" class="img-thumbnail" width="200" onclick="navigateTo('viewProduct')">
+            </td>
+            <td> {{ objectItem }} </td>
+            <td>
+                <a href="{% url 'productExplorer:viewProduct' id=objectItem.id %} "> View  </a>
+            </td>
+            <td> XX </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
 </div>
-    <script>
 
-
-        function navigateTo(destination) {
-        window.location.href = destination;
-    }
-</script>
+</body>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+
 </html>

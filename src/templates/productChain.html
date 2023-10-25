@@ -10,17 +10,42 @@
 <body>
 <div class="container">
     <h1>Liste d'Images Bootstrap</h1>
-    <ul class="list-group">
-        <li class="list-group-item">
-            <img src="{% static 'productExplorer/phone-mobile.jpg' %}" alt="phone-mobile" class="img-thumbnail" width="200">
-        </li>
-        <li class="list-group-item">
-            <img src="{% static 'productExplorer/coque.png' %}" alt="coque" class="img-thumbnail" width="200">
-        </li>
-        <li class="list-group-item">
-            <img src="{% static 'productExplorer/ecran.jpg' %}" alt="ecran" class="img-thumbnail" width="200">
-        </li>
-    </ul>
+    <br><br>
+
+    <div class="container">
+
+        <!-- Main Object of page -->
+<div class="card border-primary mb-3" style="max-width: 20rem;">
+            <h3 class="card-header"> {{ objectItem }}</h3>
+            <div class="card-body">
+                <h5 class="card-title"> {{ objectItem.brand }}</h5>
+                <h6 class="card-subtitle text-muted"> {{ objectItem.supplier }}</h6>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="d-block user-select-none" width="100%" height="200" aria-label="Placeholder: Image cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 180" style="font-size:1.125rem;text-anchor:middle">
+                <rect width="100%" height="100%" fill="#868e96"></rect>
+                <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
+            </svg>
+            <div class="card-body">
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Cras justo odio</li>
+                <li class="list-group-item">Dapibus ac facilisis in</li>
+                <li class="list-group-item">Vestibulum at eros</li>
+            </ul>
+            <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>
+            <div class="card-footer text-muted">
+                2 days ago
+            </div>
+        </div>
+        <!-- End of Main Object of page -->
+
+
+    </div>
+
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

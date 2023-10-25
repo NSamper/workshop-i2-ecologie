@@ -14,16 +14,20 @@ def index(request):
     return render(request, 'index.html', context=context)
 
 
-def viewProduct(request, id=None):
-    if id is None:
-        return render(request, 'productChain.html', context=None)
+def viewProduct(request, id):
 
-    objectItem = ObjectItem.objects.filter(id_exact=id)
-    chains = ProductChain.objects.filter(object__exact=objectItem)
+    objectItem = ObjectItem.objects.filter(id__exact=id).first()
+    all_mail = ProductChain.objects.filter(object__id__exact=objectItem.id)
+
+
+    chain = []
+    for mail in all_mail:
+        pass
+
 
     context = {
         "objectItem": objectItem,
-        "chains": chains,
+        "chains": all_mail,
     }
 
     return render(request, 'productChain.html', context=context)

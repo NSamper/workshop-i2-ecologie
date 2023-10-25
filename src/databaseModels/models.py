@@ -132,3 +132,4 @@ class ProductChain(BaseModel):
     currStep = models.UUIDField()
     nextStep = models.UUIDField()
 
+

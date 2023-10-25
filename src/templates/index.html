@@ -1,10 +1,44 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste d'Images Bootstrap avec transition de vue</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
+<div class="container">
+    <h1>Liste d'Images Bootstrap</h1>
+    <ul class="list-group">
+        <li class="list-group-item">
+            <a href="{% url 'productExplorer:viewProduct' %} ">
+            <img src="{% static 'productExplorer/phone-mobile.jpg' %}" alt="phone-mobile" class="img-thumbnail" width="200" onclick="navigateTo('viewProduct')">
+            </a>
+        </li>
+        <li class="list-group-item">
+            <img src="image2.jpg" alt="Image 2" class="img-thumbnail" width="200" onclick="navigateTo('image2.jpg')">
+        </li>
+        <li class="list-group-item">
+            <img src="image3.jpg" alt="Image 3" class="img-thumbnail" width="200" onclick="navigateTo('image3.jpg')">
+        </li>
+    </ul>
 
+    <div id="image-view" style="display: none;">
+        <button class="btn btn-primary" onclick="goBack()">Retour</button>
+        <img id="selected-image" class="img-fluid">
+    </div>
+</div>
+    <script>
+
+
+        function navigateTo(destination) {
+        window.location.href = destination;
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

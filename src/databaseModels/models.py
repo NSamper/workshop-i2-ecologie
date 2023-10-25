@@ -79,7 +79,7 @@ class ObjectItem(BaseModel):
     brand = models.CharField(null=True, blank=True, max_length=50)
 
     def __str__(self):
-        return str(self.state) + " " + str(self.material) + " " + str(self.id)[:5]
+        return str(self.supplier) + " " + str(self.brand) + " " + str(self.id)[:5]
 
 
 class Transport(CompanyModel):
@@ -114,7 +114,7 @@ class Storage(CompanyModel):
     storageType = models.CharField(choices=STORAGE, max_length=3, null=True, blank=True)
 
     def __str__(self):
-        return "Storage of" + str(self.objectItem) + ", " + str(self.date_in) + " - " + str(self.date_out)
+        return "Storage of " + str(self.objectItem) + ", " + str(self.date_in) + " - " + str(self.date_out)
 
 
 class Extracts(CompanyModel):
@@ -129,7 +129,9 @@ class Extracts(CompanyModel):
 
 class ProductChain(BaseModel):
     object = models.ForeignKey(to=ObjectItem, on_delete=models.CASCADE, related_name="object")
-    lastStep = models.ForeignKey(to=CompanyModel, on_delete=models.CASCADE, related_name="lastStep")
+    lastStep = models.ForeignKey(to=CompanyModel, on_delete=models.CASCADE, related_name="lastStep", null=True, blank=True)
     currStep = models.ForeignKey(to=CompanyModel, on_delete=models.CASCADE, related_name="currStep")
-    nextStep = models.ForeignKey(to=CompanyModel, on_delete=models.CASCADE, related_name="nextStep")
+    nextStep = models.ForeignKey(to=CompanyModel, on_delete=models.CASCADE, related_name="nextStep", null=True, blank=True)
 
+    def __str__(self):
+        return str(self.currStep)

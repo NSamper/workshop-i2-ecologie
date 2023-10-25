@@ -53,6 +53,9 @@ class BaseModel(models.Model):
 class CompanyModel(BaseModel):
     impact_score = models.IntegerField(blank=True, null=True)
 
+    date_in = models.DateTimeField()
+    date_out = models.DateTimeField()
+
     class Meta:
         abstract = True
 
@@ -70,13 +73,10 @@ class Transport(CompanyModel):
 
     objectItem = models.ForeignKey(to=ObjectItem, on_delete=models.CASCADE, related_name="item")
 
-    departure = models.DateTimeField()
-    arrival = models.DateTimeField()
-
     transportType = models.CharField(choices=TRANSPORT_TYPES, max_length=5)
 
     def __str__(self):
-        return "Transport of " + str(self.objectItem) + ", " + str(self.departure) + " - " + str(self.arrival)
+        return "Transport of " + str(self.objectItem) + ", " + str(self.date_in) + " - " + str(self.date_out)
 
 
 class Transform(CompanyModel):
@@ -84,38 +84,30 @@ class Transform(CompanyModel):
     objectItem_input = models.ForeignKey(to=ObjectItem, on_delete=models.CASCADE, related_name="input")
     objectItem_output = models.ForeignKey(to=ObjectItem, on_delete=models.CASCADE, related_name="output")
 
-    departure = models.DateTimeField()
-    arrival = models.DateTimeField()
-
     process = models.CharField(choices=PROCESSES, max_length=3)
 
 
     def __str__(self):
         return str(self.process) + ' of ' + str(self.objectItem_input) + " into " + str(self.objectItem_output) \
-               + " , " + str(self.departure) + " - " + str(self.arrival)
+               + " , " + str(self.date_in) + " - " + str(self.date_out)
 
 
 class Storage(CompanyModel):
 
     objectItem = models.ForeignKey(to=ObjectItem, on_delete=models.CASCADE, related_name="objectItem")
 
-    departure = models.DateTimeField()
-    arrival = models.DateTimeField()
-
     def __str__(self):
-        return "Storage of" + str(self.objectItem) + ", " + str(self.departure) + " - " + str(self.arrival)
+        return "Storage of" + str(self.objectItem) + ", " + str(self.date_in) + " - " + str(self.date_out)
 
 
 class Extracts(CompanyModel):
 
     objectItem_output = models.ForeignKey(to=ObjectItem, on_delete=models.CASCADE, related_name="extr_output")
 
-    departure = models.DateTimeField()
-
     extract_type = models.CharField(choices=EXTRACTIONS, max_length=3)
 
     def __str__(self):
-        return "Extraction of" + str(self.objectItem_output) + ", " + str(self.departure)
+        return "Extraction of" + str(self.objectItem_output) + ", " + str(self.date_out)
 
 
 class ProductChain(BaseModel):

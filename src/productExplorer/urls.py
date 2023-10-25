@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.urls import path
 
+from productExplorer import views
 
-def default(request):
-    return render(request, 'index.html', context=None)
-
+app_name = "productExplorer"
 
 urlpatterns = [
-    path('', default),
+    path('', views.index, name='index'),
+    path('viewProduct/<uuid:id>', views.viewProduct, name='viewProduct')
 ]
 
 

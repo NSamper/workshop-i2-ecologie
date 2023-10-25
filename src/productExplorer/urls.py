@@ -7,6 +7,7 @@ app_name = "productExplorer"
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('viewProduct/', views.viewProduct, name='viewProduct'),
     path('viewProduct/<uuid:id>', views.viewProduct, name='viewProduct')
 ]
 

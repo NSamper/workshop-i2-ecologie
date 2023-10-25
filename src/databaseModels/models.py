@@ -41,6 +41,12 @@ EXTRACTIONS = [
     ("CHE", "Chemical Creation"),
 ]
 
+STORAGE = [
+    ("WRH", "Warehouse"),
+    ("RWH", "Refrigerated Warehouse"),
+    ("HWH", "Heated Warehouse"),
+]
+
 
 # Models
 class BaseModel(models.Model):
@@ -64,6 +70,12 @@ class ObjectItem(BaseModel):
 
     material = models.CharField(choices=OBJECT_MATERIAL, max_length=3)
     state = models.CharField(choices=OBJECT_STATE, max_length=3)
+    category = models.CharField(max_length=3, null=True, blank=True)
+
+    address = models.CharField(max_length=50, null=True, blank=True)
+    supplier = models.CharField(null=True, blank=True, max_length=50)
+    website = models.CharField(null=True, blank=True, max_length=50)
+    brand = models.CharField(null=True, blank=True, max_length=50)
 
     def __str__(self):
         return str(self.state) + " " + str(self.material) + " " + str(self.id)[:5]
@@ -74,6 +86,8 @@ class Transport(CompanyModel):
     objectItem = models.ForeignKey(to=ObjectItem, on_delete=models.CASCADE, related_name="item")
 
     transportType = models.CharField(choices=TRANSPORT_TYPES, max_length=5)
+
+    quantity = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return "Transport of " + str(self.objectItem) + ", " + str(self.date_in) + " - " + str(self.date_out)
@@ -95,6 +109,8 @@ class Transform(CompanyModel):
 class Storage(CompanyModel):
 
     objectItem = models.ForeignKey(to=ObjectItem, on_delete=models.CASCADE, related_name="objectItem")
+
+    storageType = models.CharField(choices=STORAGE, max_length=3, null=True, blank=True)
 
     def __str__(self):
         return "Storage of" + str(self.objectItem) + ", " + str(self.date_in) + " - " + str(self.date_out)

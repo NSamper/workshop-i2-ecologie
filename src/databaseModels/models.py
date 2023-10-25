@@ -2,6 +2,7 @@ import uuid
 from django.db import models
 
 # Possibilities Dicts
+from polymorphic.models import PolymorphicModel
 
 TRANSPORT_TYPES = [
     ("STTRU", "Standard Truck"),
@@ -49,7 +50,7 @@ STORAGE = [
 
 
 # Models
-class BaseModel(models.Model):
+class BaseModel(PolymorphicModel):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True, editable=False)
 
     class Meta:
@@ -62,9 +63,8 @@ class CompanyModel(BaseModel):
     date_in = models.DateTimeField()
     date_out = models.DateTimeField()
 
-    class Meta:
-        abstract = True
-
+    chainStep = models.UUIDField(default=uuid.uuid4)
+    
 
 class ObjectItem(BaseModel):
 
@@ -128,8 +128,8 @@ class Extracts(CompanyModel):
 
 class ProductChain(BaseModel):
     object = models.ForeignKey(to=ObjectItem, on_delete=models.CASCADE, related_name="object")
-    lastStep = models.UUIDField()
-    currStep = models.UUIDField()
-    nextStep = models.UUIDField()
+    lastStep = models.ForeignKey(to=CompanyModel, on_delete=models.CASCADE, related_name="lastStep")
+    currStep = models.ForeignKey(to=CompanyModel, on_delete=models.CASCADE, related_name="currStep")
+    nextStep = models.ForeignKey(to=CompanyModel, on_delete=models.CASCADE, related_name="nextStep")
 
 

@@ -19,11 +19,9 @@ def viewProduct(request, id):
     objectItem = ObjectItem.objects.filter(id__exact=id).first()
     all_mail = ProductChain.objects.filter(object__id__exact=objectItem.id)
 
-
     chain = []
     for mail in all_mail:
         pass
-
 
     context = {
         "objectItem": objectItem,

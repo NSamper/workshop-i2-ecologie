@@ -4,6 +4,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
 # Possibilities Dicts
+from polymorphic.managers import PolymorphicManager
 from polymorphic.models import PolymorphicModel
 
 TRANSPORT_TYPES = [
@@ -101,7 +102,6 @@ class Transform(CompanyModel):
 
     process = models.CharField(choices=PROCESSES, max_length=3)
 
-
     def __str__(self):
         return str(self.process) + ' of ' + str(self.objectItem_input) + " into " + str(self.objectItem_output) \
                + " , " + str(self.date_in) + " - " + str(self.date_out)
@@ -128,10 +128,12 @@ class Extracts(CompanyModel):
 
 
 class ProductChain(BaseModel):
-    object = models.ForeignKey(to=ObjectItem, on_delete=models.CASCADE, related_name="object")
-    lastStep = models.ForeignKey(to=CompanyModel, on_delete=models.CASCADE, related_name="lastStep", null=True, blank=True)
-    currStep = models.ForeignKey(to=CompanyModel, on_delete=models.CASCADE, related_name="currStep")
-    nextStep = models.ForeignKey(to=CompanyModel, on_delete=models.CASCADE, related_name="nextStep", null=True, blank=True)
+    objectItem = models.ForeignKey(to=ObjectItem, on_delete=models.CASCADE, related_name="object")
+    lastStep = models.ForeignKey(to='self', on_delete=models.CASCADE, related_name="lastStepFK", null=True, blank=True)
+    nextStep = models.ForeignKey(to='self', on_delete=models.CASCADE, related_name="nextStepFK", null=True, blank=True)
+
+    industry_step = models.ForeignKey(to=CompanyModel,on_delete=models.CASCADE, related_name="industry_step", null=True)
+
 
     def __str__(self):
-        return str(self.currStep)
+        return str(self.industry_step)

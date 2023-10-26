@@ -80,7 +80,9 @@ class ObjectItem(BaseModel):
     brand = models.CharField(null=True, blank=True, max_length=50)
 
     def __str__(self):
-        return str(self.supplier) + " " + str(self.brand) + " " + str(self.id)[:5]
+        return str(self.brand) + " #" + str(self.id)[:5]
+
+
 
 
 class Transport(CompanyModel):
@@ -92,7 +94,11 @@ class Transport(CompanyModel):
     quantity = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-        return "Transport of " + str(self.objectItem) + ", " + str(self.date_in) + " - " + str(self.date_out)
+        return "Transport of " + str(self.objectItem) + str(self)
+
+    def description(self):
+        return "This " + str(self.objectItem) + " was transported from " + str(self.date_in)[:10] + " to " + str(self.date_out)[:10] \
+               + " in a " + str(self.get_transportType_display()) + ", averaging an impact score of " + str(self.impact_score)
 
 
 class Transform(CompanyModel):
@@ -103,8 +109,10 @@ class Transform(CompanyModel):
     process = models.CharField(choices=PROCESSES, max_length=3)
 
     def __str__(self):
-        return str(self.process) + ' of ' + str(self.objectItem_input) + " into " + str(self.objectItem_output) \
-               + " , " + str(self.date_in) + " - " + str(self.date_out)
+        return str(self.get_process_display()) + ' of ' + str(self.objectItem_input) + " into " + str(self.objectItem_output)
+
+    def description(self):
+        return "A(n) " + str(self.objectItem_input) + " was " + str(self.get_process_display()) + " into a(n) " + str(self.objectItem_output) + ", averaging an impact score of " + str(self.impact_score)
 
 
 class Storage(CompanyModel):
@@ -114,7 +122,11 @@ class Storage(CompanyModel):
     storageType = models.CharField(choices=STORAGE, max_length=3, null=True, blank=True)
 
     def __str__(self):
-        return "Storage of " + str(self.objectItem) + ", " + str(self.date_in) + " - " + str(self.date_out)
+        return "Storage of " + str(self.objectItem)
+
+    def description(self):
+        return "This " + str(self.objectItem) + " was stored from " + str(self.date_in)[:10] + " to " + str(self.date_out)[:10] \
+               + " in a " + str(self.get_storageType_display()) + ", averaging an impact score of " + str(self.impact_score)
 
 
 class Extracts(CompanyModel):

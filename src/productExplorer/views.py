@@ -48,7 +48,6 @@ def viewProduct(request, id):
         next_node_objects = None
         last_node_objects = None
 
-    print(chain)
     context = {
         "objectItem": objectItem,
         "chain": chain,

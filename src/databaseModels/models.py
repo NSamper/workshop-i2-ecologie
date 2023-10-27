@@ -94,7 +94,7 @@ class Transport(CompanyModel):
     quantity = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-        return "Transport of " + str(self.objectItem) + str(self)
+        return "Transport of " + str(self.objectItem) + str(self.id)
 
     def description(self):
         return "This " + str(self.objectItem) + " was transported from " + str(self.date_in)[:10] + " to " + str(self.date_out)[:10] \
@@ -145,7 +145,6 @@ class ProductChain(BaseModel):
     nextStep = models.ForeignKey(to='self', on_delete=models.CASCADE, related_name="nextStepFK", null=True, blank=True)
 
     industry_step = models.ForeignKey(to=CompanyModel,on_delete=models.CASCADE, related_name="industry_step", null=True)
-
 
     def __str__(self):
         return str(self.industry_step)

@@ -10,3 +10,4 @@ venv/
 src/log_file.log
 *.log
 src/static/
+pitch/
